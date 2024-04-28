@@ -1,0 +1,88 @@
+---
+title: " Yatırım Varlıkları:  Toplam Portföy Yatırımı (Dünya) "
+author: 
+  - Şevval Adal[^1]
+bibliography: ../bibliography/biblio.bib
+csl: C:\Users\sevva\OneDrive\Masaüstü\20080252\csl/apa-tr.csl
+header-includes:
+  - \usepackage{polyglossia}
+  - \setmainlanguage{turkish}
+  - \usepackage{booktabs}
+  - \usepackage{caption} 
+  - \captionsetup[table]{skip=10pt}
+output:
+  bookdown::pdf_document2:
+    fig_caption: yes
+    fig_height: 3
+    fig_width: 4
+    keep_tex: no
+    latex_engine: xelatex
+    number_sections: yes
+    toc: no
+geometry: margin=1in
+link-citations: yes
+urlcolor: blue
+fontsize: 12pt
+biblio-style: apalike
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache = FALSE, echo = TRUE, message = FALSE, warning = FALSE)
+```
+
+<!-- ======================================================================= -->
+<!-- ============================== NOTLAR ================================= -->
+<!-- ======================================================================= -->
+[^1]: 20080252
+
+# Giriş
+ Portföy, bir yatırımcının aynı veya farklı özelliklere sahip birden fazla yatırım aracına (altın, döviz, tahvil gibi) yatırım yapmak suretiyle oluşturduğu toplam değeri ifade etmektedir. Portföy yatırımının ülkeler için değeri o ülkedeki yatırımcıların sahip olduğu toplam yatırımların değeridir. Ulusal ekonomiler için ülke gelişmişliğini yansıtan portföy yatırımları ülkenin finansal piyasalarının gelişmişliğini ve dış ticaret dengesini de etkilemektedir. 
+## VERİ SETİ
+ Veri seti, dünya genelindeki tüm ekonomilerin 2001 yılından itibaren 2023 yılına kadar olan dönemdeki toplam portföy yatırımlarını milyon dolar cinsinden içermektedir. Burada ham veriler iletilmektedir. Veriler ([IMF](https://data.imf.org/regular.aspx?key=60587819)) üzerinden bulunmuştur. 
+ Veri setlerinde satırlar gözlem birimlerini sütunlar ise gözlem değişkenlerini ifade etmektedir. Veri setinde ülkeler gözlem birimlerini ifade ederken yıllar ise değişkenleri ifade etmektedir.Verilerde yer alan ülkelerin kıtalara göre ayrıştırılması yapılacak ve 2001 yılı baz alınarak ülkelerin yıllara göre portföy yatırımlarındaki artış durumları incelenecektir. Ülkelerin bulundukları kıtalarla portföy yatırımları arasında korelasyonlarının olup olmadığı incelenecektir.
+ 
+## Çalışmanın Amacı
+ > Çalışma kapsamında IMF'nin seçtiği ülkelere ait toplam portföy yatırımlarının bulunduğu bir veri seti yer almaktadır. Bu veri setinin içinde yer alan ülkelerin ve 2001 yılından başlayarak 2023 yılına kadar devam eden yılları izleyen değişkenler ve toplam portföy yatırımlarının milyon ABD doları cinsinden değeri yer almaktadır.
+ >Çalışmada hedeflenen ülkeleri kıtalara göre kategorize ederek aynı kıtada yer alan ülkelerin portföy yatırımları arasında korelasyon bulunmakta mıdır sorusu cevaplanmak istenmektedir. Yine çalışmada yıllar üzerinden portföy yatırımları arasında değişim oranlarının incelenmesi hedeflenmektedir. Baz yıl olarak 2001 yılı seçilmiştir.
+ > Çalışmada kullanılabilecek yöntemler hakkında öğretim üyesinden destek alındıktan sonra çalışmanın analizine başlanacaktır.
+
+## Literatür 
+### Aşağıdaki metinler alıntılanmıştır.
+# > Portföy yatırımları, ödemeler bilançosu dengesinde sermaye hesabı altında bulunan doğrudan yabancı sermaye yatırımları ve kredilerle birlikte üçüncü bir kalem olan ve içerisinde tahvilleri ve hisse senetlerini ihtiva eden dolaylı yabancı sermaye yatırımlarıdır. Diğer kalem olan doğrudan yabancı sermaye yatırımları ülkeye dışarıdan yapılan reel yatırımları ifade ederken portföy yatırımları, ülkenin kıymetli kağıtlarına yapılan finansal yatırımları ifade etmektedir. Bu kıymetli kağıtlar karşılığında ülkeye sıcak para girişi yaşanmakta, vadesinin gelmesi veya diğer nedenlerle bu para, faizi veya karı ile birlikte ülke dışına çıkmaktadır.(Sugözü, 2020, 198)  Burada finansal yatırımlar arasında portföy yatırımlarının öneminden ve aynı zamanda ülkeye yapılan sıcak para girişlerinin öneminde portföy yatırımlarının ne kadar etkili olduğuna değinilmiştir.
+# > Yapılmış olan çalışmalarda özellikle gelişmekte olan ülkelerde kısa dönemde pozitif etkiye sahip olan doğrudan yatırımların etkisinin uzun vadede tersine döndüğü sonuçları ile karşılaşılmaktadır. (Sugözü, 2020, 199) Gelişmekte olan ülkelerde kısa dönemde pozitif etkileyen portföy yatırımlarının uzun dönemde kırılgan ve negatif etkileri olduğuna değinilmiştir.
+# > Uluslararası portföy yatırımcılarının yüksek düzeyde yatırımcı koruması olan ülkelere, dolayısıyla yönetişim kalitesinin yüksek olduğu ülkelere yatırım yapmayı tercih ettikleri görülmektedir. (Kaya, 2020, 189) Bu durumda yatırımların hukuki düzenin sağlandığı ve yatırımcıyı koruyacak ülkelere portföy yatırımlarının yapıldığınısöylemek mümkündür.
+# > Agyemang vd. (2016) Afrika ekonomisinden 39 ülkeyi incelemiş, düzenleyici kalitesi ile yabancı mülkiyet yaygınlığı arasında anlamlı bir pozitif ilişki olduğunu; ayrıca siyasi istikrarı olan ve hukukun üstünlüğünü benimseyen Afrika ülkelerinde yabancı mülkiyetinin yaygın olduğunu belirtmişlerdir.(Kaya, 2020, 190)
+# > Overall, the more developed an economy, including especially financial markets, the more it attracts capital. Furthermore, the literature asserts that it is system of feedback in which financial development and capital inflow support each other.(Ünal, 2018, 100)
+# > The portfolio investor, on the other hand, is interested in putting hisfunds where they get the maximum return for a given level of risk. Portfolio investment will be fasterto move in search of higher returns and/or lower risk, and have a shorter time horizon. Therefore, itwill tend to be more volatile. Volatility can be useful in providing opportunities for profit, orarbitrage, which will attract investors and encourage market efficiency. Volatility also indicates thatthe market is seeking the best allocation of capital for the current economic opportunities. But,portfolio investment, with its volatility, can also experience system-wide movements of capital which can have broad economic repercussions. These differences in motivation and attributes necessitate differences in policy approach for the two types of investment. (Evans, 2002, 4)
+
+
+ \newpage
+# Kaynakça {#references}
+<div id="refs">
+  <h2>Kaynaklar</h2>
+  <ol>
+    <li>@article{kaya:2020,
+	Author = {Kaya, Eyyüp & Aksoy, Mine},
+	Title = {Ülke Yönetişim Kalitesinin Uluslararası Portföy Yatırımları Üzerindeki Etkisi},
+	url = {https://dergipark.org.tr/tr/download/article-file/1112590},
+	Year = {2020}}</li>
+    <li>@article{ünal:2018,
+	Author = {Ünal, Seyfettin & Koyuncu, Cüneyt},
+	Title = {THE LONG-RUN IMPACT OF GLOBALIZATION ON PORTFOLIO INVESTMENTS: 
+PANEL EVIDENCE},
+	url = {https://dergipark.org.tr/tr/download/article-file/564759},
+	Year = {2018}}
+</li>
+    <li>@article{evans:2002,
+	Author = {Evans, Kimberly},
+	Title = {ATTRACTING FOREIGN DIRECT INVESTMENT FOR DEVELOPMENT},
+	url = {https://www.oecd.org/investment/investmentfordevelopment/2764407.pdf},
+	Year = {2002}}</li>
+    <li>@article{sugözü:2007,
+	Author = {Sugözü, İbrahim Halil & Yaşar, Sema},
+	Title = {Portföy Yatırımları İle Ekonomik Büyüme İlişkisi: 23 OECD Ülkesi İçin Panel Veri Analizi},
+	url = {https://dergipark.org.tr/tr/download/article-file/1071485},
+	Year = {2020}}</li>
+  </ol>
+</div>
+ 
+ 
